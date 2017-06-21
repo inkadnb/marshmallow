@@ -1090,6 +1090,16 @@ class Dict(Field):
         'invalid': 'Not a valid mapping type.'
     }
 
+    def _serialize(self, nested_obj, attr, obj):
+        ret = nested_obj         
+        
+        if type(self.only) == set:
+            self.only = list(self.only)
+
+            return {k: nested_obj[k] for k in self.only}
+
+        return nested_obj
+ 
     def _deserialize(self, value, attr, data):
         if isinstance(value, collections.Mapping):
             return value
