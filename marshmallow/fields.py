@@ -1093,10 +1093,12 @@ class Dict(Field):
     def _serialize(self, nested_obj, attr, obj):
         ret = nested_obj         
         
-        if type(self.only) == set:
-            self.only = list(self.only)
+        if hasattr(self, 'only'):
+            if type(self.only) == set:
+                self.only = list(self.only)
 
-            return {k: nested_obj[k] for k in self.only}
+            if nested_obj is not None:
+                return {k: nested_obj[k] for k in self.only}
 
         return nested_obj
  
